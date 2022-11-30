@@ -38,11 +38,6 @@ public class Account {
 
         // Инициализируем список операций по счету
         this.transactions = new ArrayList<Transaction>();
-
-        // Добавляем счет в список счетов владельца и список всех счетов в банке
-        holder.addAccount(this);
-        theBank.addAccount(this);
-
     }
 
     public String getUUID() {

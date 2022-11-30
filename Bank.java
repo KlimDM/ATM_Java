@@ -46,7 +46,7 @@ public class Bank {
     public String getNewAccountUUID() {
         String uuid = "";
         Random rng = new Random();
-        int len = 6;
+        int len = 10;
         boolean nonUnique;
 
         do {
@@ -64,16 +64,40 @@ public class Bank {
             }
 
         } while (nonUnique);
+
         return uuid;
     }
-
-
-
-
-
-
 
     public void addAccount(Account anAcct) {
         this.accounts.add(anAcct);
     }
+
+    public User addUser(String firstName, String lastName, String pin) {
+        User newUser = new User(firstName, lastName, pin, this);
+        this.users.add(newUser);
+
+        // Создадим счет для нового клиента
+        Account newAcc = new Account("Savings", newUser, this);
+        newUser.addAccount(newAcc);
+        this.addAccount(newAcc);
+
+        return newUser;
+
+    }
+
+    /**
+     *
+     * @param UserID
+     * @param pin
+     * @return
+     */
+    public User Login(String UserID, String pin) {
+        for (User user : this.users) {
+            if ((user.getUUID().compareTo(UserID) == 0) && user.validatePin(pin)) {
+                return user;
+            }
+        }
+        return null;
+    }
 }
+
